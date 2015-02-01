@@ -18,6 +18,8 @@ pkg_check_modules(svc_pkgs REQUIRED
 	db-util
 	com-core
 	vconf
+	capi-base-common
+	aul
 )
 
 FOREACH(flag ${svc_pkgs_CFLAGS})
@@ -33,7 +35,6 @@ ADD_DEFINITIONS("-D_USE_ECORE_TIME_GET")
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED 
 	src/main.c
-	src/icon.c
 	src/dlist.c
 )
 
@@ -44,6 +45,8 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${PROJECT_NAME}
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib)
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/lib/include/shortcut.h DESTINATION include/${PROJECT_NAME})
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/lib/include/shortcut_private.h DESTINATION include/${PROJECT_NAME})
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/lib/include/shortcut_manager.h DESTINATION include/${PROJECT_NAME})
 INSTALL(FILES ${CMAKE_BINARY_DIR}/lib/${PROJECT_NAME}.pc DESTINATION lib/pkgconfig)
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/lib/LICENSE DESTINATION /usr/share/license RENAME "lib${PROJECT_NAME}")
 

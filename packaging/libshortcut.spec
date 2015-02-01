@@ -1,8 +1,7 @@
 Name: libshortcut
 Summary: Shortcut add feature supporting library
-Version: 0.6.12
+Version: 0.6.14
 Release: 0
-VCS:     magnolia/framework/appfw/shortcut#shortcut_0.3.20-37-g4af29465058bf4841fd5ee41f0d09594e88b8aa0
 Group: HomeTF/Framework
 License: Apache
 Source0: %{name}-%{version}.tar.gz
@@ -19,6 +18,8 @@ BuildRequires: pkgconfig(sqlite3)
 BuildRequires: pkgconfig(com-core)
 BuildRequires: pkgconfig(libxml-2.0)
 BuildRequires: pkgconfig(vconf)
+BuildRequires: pkgconfig(capi-base-common)
+BuildRequires: pkgconfig(aul)
 
 %description
 [Shortcut] AddToHome feature supporting library for menu/home screen developers.
@@ -74,6 +75,8 @@ touch %{buildroot}/opt/dbspace/.shortcut_service.db-journal
 %manifest %{name}.manifest
 %defattr(-,root,root,-)
 %{_includedir}/shortcut/shortcut.h
+%{_includedir}/shortcut/shortcut_private.h
+%{_includedir}/shortcut/shortcut_manager.h
 %{_libdir}/pkgconfig/shortcut.pc
 
 # End of a file

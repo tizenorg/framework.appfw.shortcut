@@ -41,7 +41,7 @@ static Eina_Bool test_main(void *data)
 	}
 
 	printf("Test: %d\n", idx);
-	ret = shortcut_icon_request_set_info(handle, NULL, SHORTCUT_ICON_TYPE_IMAGE, DEFAULT_ICON_PART, "/usr/share/icons/default/small/com.samsung.music-player.png", NULL, NULL);
+	ret = shortcut_icon_request_set_info(handle, NULL, SHORTCUT_ICON_TYPE_IMAGE, DEFAULT_ICON_PART, "/usr/share/icons/default/small/org.tizen.music-player.png", NULL, NULL);
 	printf("NAME set_info: %d\n", ret);
 
 	snprintf(filename, sizeof(filename), "App Name %d", idx);
@@ -51,14 +51,14 @@ static Eina_Bool test_main(void *data)
 	snprintf(filename, sizeof(filename), "/opt/usr/share/live_magazine/always/out%d.png", idx);
 
 	switch (idx % 7) {
-	case 0: type = LIVEBOX_TYPE_1x1; break;
-	case 1: type = LIVEBOX_TYPE_2x1; break;
-	case 2: type = LIVEBOX_TYPE_2x2; break;
-	case 3: type = LIVEBOX_TYPE_4x1; break;
-	case 4: type = LIVEBOX_TYPE_4x2; break;
-	case 5: type = LIVEBOX_TYPE_4x3; break;
-	case 6: type = LIVEBOX_TYPE_4x4; break;
-	default: type = LIVEBOX_TYPE_1x1; break;
+	case 0: type = DYNAMICBOX_TYPE_1x1; break;
+	case 1: type = DYNAMICBOX_TYPE_2x1; break;
+	case 2: type = DYNAMICBOX_TYPE_2x2; break;
+	case 3: type = DYNAMICBOX_TYPE_4x1; break;
+	case 4: type = DYNAMICBOX_TYPE_4x2; break;
+	case 5: type = DYNAMICBOX_TYPE_4x3; break;
+	case 6: type = DYNAMICBOX_TYPE_4x4; break;
+	default: type = DYNAMICBOX_TYPE_1x1; break;
 	}
 
 	ret = shortcut_icon_request_send(handle, type, NULL, NULL, filename, result_cb, NULL);

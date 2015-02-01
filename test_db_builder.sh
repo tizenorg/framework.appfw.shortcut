@@ -19,11 +19,11 @@
 DBFILE="/opt/dbspace/.shortcut_service.db"
 
 APPID=(
-"com.samsung.facebook"
-"com.samsung.facebook"
-"com.samsung.facebook"
-"com.samsung.facebook"
-"com.samsung.facebook"
+"org.tizen.facebook"
+"org.tizen.facebook"
+"org.tizen.facebook"
+"org.tizen.facebook"
+"org.tizen.facebook"
 )
 
 ICON=(
@@ -43,11 +43,11 @@ NAME=(
 )
 
 KEY=(
-"livebox_shortcut_type"
-"livebox_shortcut_type"
-"livebox_shortcut_type"
-"livebox_shortcut_type"
-"livebox_shortcut_type"
+"dynamicbox_shortcut_type"
+"dynamicbox_shortcut_type"
+"dynamicbox_shortcut_type"
+"dynamicbox_shortcut_type"
+"dynamicbox_shortcut_type"
 )
 
 VALUE=(
