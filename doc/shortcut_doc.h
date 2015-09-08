@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
-#include <Elementary.h>
-#include <shortcut.h>
+#ifndef __SHORTCUT_DOC_H__
+#define __SHORTCUT_DOC_H__
 
-int shortcut_request_cb(const char *pkgname, const char *name, int type, const char *exec, const char *icon, int pid, double period, void *data)
-{
-	printf("SERVER: name: %s, type: %d, exec: %s, icon: %s, pid: %d, data: %p, period: %lf\n",
-		name, type, exec, icon, pid, data, period);
-	return 0;
-}
+/**
+ * @defgroup SHORTCUT_MODULE Shortcut
+ * @brief To enhance the Add to home feature.
+ *   - The other for the application developers who should implement the Add to home feature.
+ * @ingroup CAPI_APPLICATION_FRAMEWORK 
+ * @section SHORTCUT_MODULE_HEADER Required Header
+ *   \#include <shortcut_manager.h>
+ * @section SHORTCUT_MODULE_OVERVIEW Overview
+It provides function of creating shortcut.
+Developers can use the "shortcut_add_to_home" API to create their shortcut to a home screen.
+ *
+ */
 
-int elm_main(int argc, char *argv[])
-{
-	shortcut_set_request_cb(shortcut_request_cb, NULL);
-
-	elm_run();
-	elm_shutdown();
-
-	return 0;
-}
-
-ELM_MAIN()
-/* End of a file */
-
+#endif /* __SHORTCUT_DOC_H__ */
