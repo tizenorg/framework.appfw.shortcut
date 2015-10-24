@@ -1,9 +1,9 @@
 Name: libshortcut
 Summary: Shortcut add feature supporting library
-Version: 0.6.14
+Version: 0.6.16
 Release: 0
-Group: HomeTF/Framework
-License: Apache
+Group: Applications/Core Applications
+License: Apache-2.0
 Source0: %{name}-%{version}.tar.gz
 Source1001: %{name}.manifest
 
@@ -30,8 +30,7 @@ Group:      Development/Libraries
 Requires:   %{name} = %{version}-%{release}
 
 %description devel
-[Shortcut] AddToHome feature supporting library for menu/home screen developers
-(dev).
+[Shortcut] AddToHome feature supporting library for menu/home screen developers(dev).
 
 %prep
 %setup -q
@@ -72,7 +71,6 @@ touch %{buildroot}/opt/dbspace/.shortcut_service.db-journal
 %attr(640,root,app) /opt/dbspace/.shortcut_service.db-journal
 
 %files devel
-%manifest %{name}.manifest
 %defattr(-,root,root,-)
 %{_includedir}/shortcut/shortcut.h
 %{_includedir}/shortcut/shortcut_private.h

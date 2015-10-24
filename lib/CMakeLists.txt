@@ -26,7 +26,7 @@ FOREACH(flag ${svc_pkgs_CFLAGS})
 	SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
 
-SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} -fvisibility=hidden -g -Wall -Werror")
+SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} -fvisibility=hidden -g -Wall -Werror ")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS}")
 
 ADD_DEFINITIONS("-DPREFIX=\"${PREFIX}\"")
@@ -34,8 +34,7 @@ ADD_DEFINITIONS("-DLOG_TAG=\"SHORTCUT\"")
 ADD_DEFINITIONS("-D_USE_ECORE_TIME_GET")
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED 
-	src/main.c
-	src/dlist.c
+	src/shortcut_manager.c
 )
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${svc_pkgs_LDFLAGS})
