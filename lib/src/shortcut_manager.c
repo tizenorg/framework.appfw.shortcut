@@ -235,8 +235,12 @@ static inline int make_connection(void)
 
 	s_info.server_fd = com_core_packet_client_init(s_info.socket_file, 0, service_table);
 	if (s_info.server_fd < 0) {
-		ErrPrint("Failed to make a connection to the master\n");
-		return SHORTCUT_ERROR_COMM;
+		ErrPrint("Failed to make a connection to the master [%d]\n", s_info.client_fd);
+
+		if (s_info.client_fd == SHORTCUT_ERROR_PERMISSION_DENIED)
+			return SHORTCUT_ERROR_PERMISSION_DENIED;
+		else
+			return SHORTCUT_ERROR_COMM;
 	}
 
 	packet = packet_create_noack("service_register", "");
@@ -312,6 +316,8 @@ static char *_shortcut_get_pkgname_by_pid(void)
 
 EAPI int shortcut_set_request_cb(shortcut_request_cb request_cb, void *data)
 {
+	int ret;
+
 	if (request_cb == NULL) {
 		return SHORTCUT_ERROR_INVALID_PARAMETER;
 	}
@@ -320,7 +326,10 @@ EAPI int shortcut_set_request_cb(shortcut_request_cb request_cb, void *data)
 	s_info.server_cb.data = data;
 
 	if (s_info.server_fd < 0) {
-		int ret;
+
+		ret =  make_connection();
+		if (ret == SHORTCUT_ERROR_NONE || ret == SHORTCUT_ERROR_PERMISSION_DENIED)
+			return ret;
 
 		ret = vconf_notify_key_changed(VCONFKEY_MASTER_STARTED, master_started_cb, NULL);
 		if (ret < 0) {
@@ -420,12 +429,10 @@ EAPI int shortcut_add_to_home(const char *name, shortcut_type type, const char *
 			if (appid) {
 				free(appid);
 			}
-			if (shortcut_is_master_ready() == 1) {
+			if (s_info.client_fd == SHORTCUT_ERROR_PERMISSION_DENIED)
 				return SHORTCUT_ERROR_PERMISSION_DENIED;
-			}
-			else {
+			else
 				return SHORTCUT_ERROR_COMM;
-			}
 		}
 	}
 
@@ -518,7 +525,11 @@ EAPI int shortcut_add_to_home_widget(const char *name, shortcut_widget_size_e si
 
 		s_info.client_fd = com_core_packet_client_init(s_info.socket_file, 0, service_table);
 		if (s_info.client_fd < 0) {
-			err = SHORTCUT_ERROR_COMM;
+			if (s_info.client_fd == SHORTCUT_ERROR_PERMISSION_DENIED)
+				err = SHORTCUT_ERROR_PERMISSION_DENIED;
+			else
+				err = SHORTCUT_ERROR_COMM;
+
 			goto out;
 		}
 	}
@@ -565,6 +576,8 @@ static inline int open_db(void)
 	ret = db_util_open(s_info.dbfile, &s_info.handle, DB_UTIL_REGISTER_HOOK_METHOD);
 	if (ret != SQLITE_OK) {
 		DbgPrint("Failed to open a %s\n", s_info.dbfile);
+		if (ret == SQLITE_PERM)
+			return SHORTCUT_ERROR_PERMISSION_DENIED;
 		return SHORTCUT_ERROR_IO_ERROR;
 	}
 
@@ -698,12 +711,12 @@ EAPI int shortcut_get_list(const char *package_name, shortcut_list_cb list_cb, v
 	}
 
 	if (!s_info.db_opened) {
-		s_info.db_opened = (open_db() == 0);
-	}
-
-	if (!s_info.db_opened) {
-		ErrPrint("Failed to open a DB\n");
-		return SHORTCUT_ERROR_IO_ERROR;
+		ret = open_db();
+		if (ret != SHORTCUT_ERROR_NONE) {
+			ErrPrint("Failed to open a DB\n");
+			return ret;
+		}
+		s_info.db_opened = 1;
 	}
 
 	language = cur_locale();
